@@ -9,7 +9,7 @@ public class Main {
         GraphParser graphParser = new GraphParser();
         Graph graph = graphParser.csvToGraph("/Graph.csv");
 
-        AStar aStar = new AStar();
-        aStar.run(graph);
+        AStar aStar = new AStar(graph);
+        aStar.run(0, 8);
     }
 }

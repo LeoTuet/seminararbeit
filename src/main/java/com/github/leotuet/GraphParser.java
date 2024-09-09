@@ -24,22 +24,26 @@ public class GraphParser {
 		for (CSVRecord record : csvParser) {
 			String[] values = record.values();
 			String type = values[0];
-			System.out.println(type);
 			switch (type) {
 				case "n": {
 					int key = Integer.parseInt(values[1]);
-					float x = Float.parseFloat(values[2]);
-					float y = Float.parseFloat(values[3]);
+					double x = Double.parseDouble(values[2]);
+					double y = Double.parseDouble(values[3]);
+
 					graph.putNode(key, x, y);
+
 					break;
 				}
 
 				case "e": {
 					int fromKey = Integer.parseInt(values[1]);
 					int toKey = Integer.parseInt(values[2]);
-					float length = Float.parseFloat(values[3]);
+					double length = Double.parseDouble(values[3]);
 					int speedLimit = Integer.parseInt(values[4]);
+
 					graph.addEdge(fromKey, graph.getNode(toKey), length, speedLimit);
+					graph.setMaxSpeedLimit(speedLimit);
+
 					break;
 				}
 			}

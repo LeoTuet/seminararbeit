@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Node {
 	private int key;
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 	private ArrayList<Edge> edges = new ArrayList<Edge>();
 
 	/**
@@ -14,7 +14,7 @@ public class Node {
 	 * @param x -coordinate where the node is located
 	 * @param y -coordinate where the node is located
 	 */
-	public Node(int key, float x, float y) {
+	public Node(int key, double x, double y) {
 		this.key = key;
 		this.x = x;
 		this.y = y;
@@ -29,8 +29,20 @@ public class Node {
 		this.edges.add(edge);
 	}
 
-	public void getLocation() {
-		System.out.println(this.key + ": x: " + this.x + ", y: " + this.y);
+	public double getX() {
+		return this.x;
+	}
+
+	public double getY() {
+		return this.y;
+	}
+
+	public int getKey() {
+		return this.key;
+	}
+
+	public ArrayList<Edge> getEdges() {
+		return this.edges;
 	}
 
 }
