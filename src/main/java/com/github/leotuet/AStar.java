@@ -4,6 +4,7 @@ import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 import com.github.leotuet.datastructures.Edge;
 import com.github.leotuet.datastructures.Graph;
@@ -17,7 +18,7 @@ public class AStar {
 		this.graph = graph;
 	}
 
-	public void run(int startNodeKey, int endNodeKey) {
+	public String run(int startNodeKey, int endNodeKey) {
 		PriorityQueue<PriorityNode> priorityQueue = new PriorityQueue<>();
 		HashMap<Integer, Integer> predecessorNodes = new HashMap<Integer, Integer>();
 		HashSet<Integer> shortestPathDiscovered = new HashSet<Integer>();
@@ -35,8 +36,9 @@ public class AStar {
 			Node currentNode = currentPriorityNode.getNode();
 
 			if (currentNode.getKey() == endNodeKey) {
-				System.out.println("Found path");
-				return;
+				String path = constructPath(predecessorNodes, startNodeKey, endNodeKey);
+				String time = new DecimalFormat("#.#").format(currentPriorityNode.getCostToNode() / 60) + "min";
+				return path + " in " + time;
 			}
 
 			ArrayList<Edge> edges = currentNode.getEdges();
@@ -71,8 +73,7 @@ public class AStar {
 
 		}
 
-		System.out.println("Nothing found");
-		return;
+		return "No Path found";
 
 	}
 
@@ -81,5 +82,16 @@ public class AStar {
 		double deltaY = fromNode.getY() - toNode.getY();
 		double euclideanDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 		return euclideanDistance / (graph.getMaxSpeedLimit() / 3.6);
+	}
+
+	private String constructPath(HashMap<Integer, Integer> nodeLinks, int startNodeKey, int endNodeKey) {
+		int currentKey = endNodeKey;
+		String path = String.valueOf(endNodeKey);
+		while (currentKey != startNodeKey) {
+			int predecessorNodeKey = nodeLinks.get(currentKey);
+			path = predecessorNodeKey + " -> " + path;
+			currentKey = predecessorNodeKey;
+		}
+		return path;
 	}
 }
