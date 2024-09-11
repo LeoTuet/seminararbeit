@@ -11,8 +11,9 @@ public class Node {
 	/**
 	 * Constructor for a Node
 	 * 
-	 * @param x -coordinate where the node is located
-	 * @param y -coordinate where the node is located
+	 * @param key unique identifier for this Node
+	 * @param x   -coordinate where the node is located
+	 * @param y   -coordinate where the node is located
 	 */
 	public Node(int key, double x, double y) {
 		this.key = key;
@@ -29,18 +30,30 @@ public class Node {
 		this.edges.add(edge);
 	}
 
+	/**
+	 * @return x location of Node
+	 */
 	public double getX() {
 		return this.x;
 	}
 
+	/**
+	 * @return y location of Node
+	 */
 	public double getY() {
 		return this.y;
 	}
 
+	/**
+	 * @return the unique key of the Node
+	 */
 	public int getKey() {
 		return this.key;
 	}
 
+	/**
+	 * @return all Edges which are pointing from this node to others
+	 */
 	public ArrayList<Edge> getEdges() {
 		return this.edges;
 	}

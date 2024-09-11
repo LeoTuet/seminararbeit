@@ -13,6 +13,7 @@ public class Main {
         long startTime = System.nanoTime();
         String result = aStar.run(0, 3);
         long stopTime = System.nanoTime();
+
         System.out.println(result);
         System.out.println("Runtime: " + (stopTime - startTime) / Math.pow(10, 9) + "s");
     }

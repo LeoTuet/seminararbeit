@@ -9,7 +9,7 @@ public class Edge {
 	 * 
 	 * @param length     of the Road in meters
 	 * @param speedLimit on the Road in kilometers per hour (km/h)
-	 * @param Node       to which the edge points
+	 * @param targetNode       to which the edge points
 	 */
 	public Edge(double length, int speedLimit, Node targetNode) {
 		// converts km/h to m/s before calculating the cost

@@ -53,18 +53,23 @@ public class AStar {
 				}
 
 				double costToCurrent = currentPriorityNode.getEstimatedCostToEnd() + edge.getCost();
-				double estimatedCostToEnd = costToCurrent + calculateHeuristic(targetNode, endNode);
-
 				PriorityNode discoveredNode = discoveredNodes.get(targetNodeKey);
+
+				// Check if Node and more coste efficient way to Node is already discoverd
+				if (discoveredNode != null && costToCurrent > discoveredNode.getCostToNode()) {
+					continue;
+				}
+
+				double estimatedCostToEnd = costToCurrent + calculateHeuristic(targetNode, endNode);
+				PriorityNode priorityNode = new PriorityNode(targetNode, costToCurrent, estimatedCostToEnd);
+
+				discoveredNodes.put(targetNodeKey, priorityNode);
+				predecessorNodes.put(targetNodeKey, currentNode.getKey());
+
 				if (discoveredNode == null) {
-					PriorityNode priorityNode = new PriorityNode(targetNode, costToCurrent, estimatedCostToEnd);
-					discoveredNodes.put(targetNodeKey, priorityNode);
-					predecessorNodes.put(targetNodeKey, currentNode.getKey());
 					priorityQueue.add(priorityNode);
-				} else if (costToCurrent < discoveredNode.getCostToNode()) {
-					PriorityNode priorityNode = new PriorityNode(targetNode, costToCurrent, estimatedCostToEnd);
-					discoveredNodes.put(targetNodeKey, priorityNode);
-					predecessorNodes.put(targetNodeKey, currentNode.getKey());
+				} else {
+					// The Node was already discovered but this path is more cost efficient
 					priorityQueue.remove(discoveredNode);
 					priorityQueue.add(priorityNode);
 				}
@@ -81,7 +86,7 @@ public class AStar {
 		double deltaX = fromNode.getX() - toNode.getX();
 		double deltaY = fromNode.getY() - toNode.getY();
 		double euclideanDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-		return euclideanDistance / (graph.getMaxSpeedLimit() / 3.6);
+		return euclideanDistance / graph.getMaxSpeedLimit();
 	}
 
 	private String constructPath(HashMap<Integer, Integer> nodeLinks, int startNodeKey, int endNodeKey) {
