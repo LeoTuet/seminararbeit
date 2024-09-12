@@ -26,8 +26,8 @@ public class GraphParser {
 		Graph graph = new Graph();
 
 		InputStream csvStream = this.getClass().getResourceAsStream(path);
-		CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setDelimiter(";").build();
-		CSVParser csvParser = CSVParser.parse(csvStream, StandardCharsets.UTF_8, csvFormat);
+		// CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setDelimiter(";").build();
+		CSVParser csvParser = CSVParser.parse(csvStream, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
 
 		for (CSVRecord record : csvParser) {
 			String[] values = record.values();
@@ -35,7 +35,7 @@ public class GraphParser {
 			switch (type) {
 				// Node Record
 				case "n": {
-					int key = Integer.parseInt(values[1]);
+					long key = Long.parseLong(values[1]);
 					double x = Double.parseDouble(values[2]);
 					double y = Double.parseDouble(values[3]);
 
@@ -46,8 +46,8 @@ public class GraphParser {
 
 				// Edge Record
 				case "e": {
-					int fromKey = Integer.parseInt(values[1]);
-					int toKey = Integer.parseInt(values[2]);
+					long fromKey = Long.parseLong(values[1]);
+					long toKey = Long.parseLong(values[2]);
 					double length = Double.parseDouble(values[3]);
 					int speedLimit = Integer.parseInt(values[4]);
 

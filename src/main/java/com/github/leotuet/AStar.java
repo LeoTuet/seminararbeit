@@ -18,18 +18,17 @@ public class AStar {
 		this.graph = graph;
 	}
 
-	public String run(int startNodeKey, int endNodeKey) {
+	public String run(long startNodeKey, long endNodeKey) {
 		PriorityQueue<PriorityNode> priorityQueue = new PriorityQueue<>();
-		HashMap<Integer, Integer> predecessorNodes = new HashMap<Integer, Integer>();
-		HashSet<Integer> shortestPathDiscovered = new HashSet<Integer>();
-		HashMap<Integer, PriorityNode> discoveredNodes = new HashMap<Integer, PriorityNode>();
+		HashMap<Long, Long> predecessorNodes = new HashMap<Long, Long>();
+		HashMap<Long, PriorityNode> discoveredNeighborNodes = new HashMap<Long, PriorityNode>();
+		HashSet<Long> shortestPathDiscovered = new HashSet<Long>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);
 
 		PriorityNode startPriorityNode = new PriorityNode(startNode, 0.0, 0.0);
 		priorityQueue.add(startPriorityNode);
-		discoveredNodes.put(startNodeKey, startPriorityNode);
 
 		while (!priorityQueue.isEmpty()) {
 			PriorityNode currentPriorityNode = priorityQueue.poll();
@@ -41,36 +40,36 @@ public class AStar {
 				return path + " in " + time;
 			}
 
-			ArrayList<Edge> edges = currentNode.getEdges();
 			shortestPathDiscovered.add(currentNode.getKey());
+			ArrayList<Edge> edges = currentNode.getEdges();
 
 			for (Edge edge : edges) {
 				Node targetNode = edge.getTargetNode();
-				int targetNodeKey = targetNode.getKey();
+				long targetNodeKey = targetNode.getKey();
 
 				if (shortestPathDiscovered.contains(targetNodeKey)) {
 					continue;
 				}
 
 				double costToCurrent = currentPriorityNode.getEstimatedCostToEnd() + edge.getCost();
-				PriorityNode discoveredNode = discoveredNodes.get(targetNodeKey);
+				PriorityNode discoveredNeighborNode = discoveredNeighborNodes.get(targetNodeKey);
 
 				// Check if Node and more coste efficient way to Node is already discoverd
-				if (discoveredNode != null && costToCurrent > discoveredNode.getCostToNode()) {
+				if (discoveredNeighborNode != null && costToCurrent >= discoveredNeighborNode.getCostToNode()) {
 					continue;
 				}
 
 				double estimatedCostToEnd = costToCurrent + calculateHeuristic(targetNode, endNode);
 				PriorityNode priorityNode = new PriorityNode(targetNode, costToCurrent, estimatedCostToEnd);
 
-				discoveredNodes.put(targetNodeKey, priorityNode);
+				discoveredNeighborNodes.put(targetNodeKey, priorityNode);
 				predecessorNodes.put(targetNodeKey, currentNode.getKey());
 
-				if (discoveredNode == null) {
+				if (discoveredNeighborNode == null) {
 					priorityQueue.add(priorityNode);
 				} else {
 					// The Node was already discovered but this path is more cost efficient
-					priorityQueue.remove(discoveredNode);
+					priorityQueue.remove(discoveredNeighborNode);
 					priorityQueue.add(priorityNode);
 				}
 
@@ -89,14 +88,17 @@ public class AStar {
 		return euclideanDistance / graph.getMaxSpeedLimit();
 	}
 
-	private String constructPath(HashMap<Integer, Integer> nodeLinks, int startNodeKey, int endNodeKey) {
-		int currentKey = endNodeKey;
+	private String constructPath(HashMap<Long, Long> nodeLinks, long startNodeKey, long endNodeKey) {
+		long currentKey = endNodeKey;
 		String path = String.valueOf(endNodeKey);
+		String list = String.valueOf(endNodeKey) + "]";
 		while (currentKey != startNodeKey) {
-			int predecessorNodeKey = nodeLinks.get(currentKey);
+			long predecessorNodeKey = nodeLinks.get(currentKey);
 			path = predecessorNodeKey + " -> " + path;
+			list = predecessorNodeKey + "," + list;
 			currentKey = predecessorNodeKey;
 		}
+		System.out.println("[" + list);
 		return path;
 	}
 }

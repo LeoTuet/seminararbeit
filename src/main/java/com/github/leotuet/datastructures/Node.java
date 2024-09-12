@@ -3,7 +3,7 @@ package com.github.leotuet.datastructures;
 import java.util.ArrayList;
 
 public class Node {
-	private int key;
+	private long key;
 	private double x;
 	private double y;
 	private ArrayList<Edge> edges = new ArrayList<Edge>();
@@ -15,7 +15,7 @@ public class Node {
 	 * @param x   -coordinate where the node is located
 	 * @param y   -coordinate where the node is located
 	 */
-	public Node(int key, double x, double y) {
+	public Node(long key, double x, double y) {
 		this.key = key;
 		this.x = x;
 		this.y = y;
@@ -47,7 +47,7 @@ public class Node {
 	/**
 	 * @return the unique key of the Node
 	 */
-	public int getKey() {
+	public long getKey() {
 		return this.key;
 	}
 

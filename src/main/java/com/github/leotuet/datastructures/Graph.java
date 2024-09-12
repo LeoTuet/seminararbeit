@@ -3,8 +3,8 @@ package com.github.leotuet.datastructures;
 import java.util.HashMap;
 
 public class Graph {
-	private HashMap<Integer, Node> graph = new HashMap<Integer, Node>();
-	private int maxSpeedLimit = 0;
+	private HashMap<Long, Node> nodes = new HashMap<Long, Node>();
+	private double maxSpeedLimit = 0;
 
 	/**
 	 * Puts the Node into the Graph Map
@@ -13,8 +13,8 @@ public class Graph {
 	 * @param x   -coordinate where the node is located
 	 * @param y   -coordinate where the node is located
 	 */
-	public void putNode(int key, double x, double y) {
-		graph.put(key, new Node(key, x, y));
+	public void putNode(long key, double x, double y) {
+		nodes.put(key, new Node(key, x, y));
 	}
 
 	/**
@@ -25,8 +25,8 @@ public class Graph {
 	 * @param length      of the Road in meters
 	 * @param speedLimit  on the Road in kilometers per hour (km/h)
 	 */
-	public void addEdge(int fromNodeKey, Node toNode, double length, int speedLimit) {
-		Node fromNode = graph.get(fromNodeKey);
+	public void addEdge(long fromNodeKey, Node toNode, double length, int speedLimit) {
+		Node fromNode = nodes.get(fromNodeKey);
 		fromNode.addEdge(new Edge(length, speedLimit, toNode));
 	}
 
@@ -36,8 +36,9 @@ public class Graph {
 	 * @param speedLimit on the Road in kilometers per hour (km/h)
 	 */
 	public void setMaxSpeedLimit(int speedLimit) {
-		if (speedLimit > this.maxSpeedLimit) {
-			this.maxSpeedLimit = speedLimit;
+		double meterPerSecondSpeedLimit = speedLimit / 3.6;
+		if (meterPerSecondSpeedLimit > this.maxSpeedLimit) {
+			this.maxSpeedLimit = meterPerSecondSpeedLimit;
 		}
 	}
 
@@ -45,15 +46,15 @@ public class Graph {
 	 * @param key of the Node in Graph
 	 * @return the specified Node
 	 */
-	public Node getNode(int key) {
-		return graph.get(key);
+	public Node getNode(long key) {
+		return nodes.get(key);
 	}
 
 	/**
 	 * @return the max speed limit which exists in the graph in m/s
 	 */
 	public double getMaxSpeedLimit() {
-		return maxSpeedLimit / 3.6;
+		return maxSpeedLimit;
 	}
 
 }
