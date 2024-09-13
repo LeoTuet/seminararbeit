@@ -1,5 +1,5 @@
 import osmnx as ox
-import copy
+import time
 
 place_name = "Wochenmarkt, Germering"
 
@@ -30,10 +30,11 @@ def str_speed_to_int(max_speed):
 
 
 def osm_to_cleaned():
-    graph = ox.graph_from_address(place_name, dist=10000)
+    start = time.time()
+    graph = ox.graph_from_address(place_name, dist=30000)
+    print("graph", time.time() - start)
 
-    edges = copy.deepcopy(graph.edges(data=True))
-    connected_nodes = []
+    connected_nodes = set()
     not_needed_highways = [
         "cycleway",
         "footway",
@@ -44,7 +45,8 @@ def osm_to_cleaned():
         "service",
     ]
 
-    for source, target, data in edges:
+    start = time.time()
+    for source, target, data in list(graph.edges(data=True)):
         highway = data["highway"]
         if type(highway) is list and any(way in not_needed_highways for way in highway):
             graph.remove_edge(source, target)
@@ -69,11 +71,14 @@ def osm_to_cleaned():
         for index in range(len(graph[source][target])):
             graph[source][target][index]["maxspeed"] = max_speed
 
-        connected_nodes.append(source)
-        connected_nodes.append(target)
+        connected_nodes.add(source)
+        connected_nodes.add(target)
+    print("edge clean", time.time() - start)
 
-    for node, data in copy.deepcopy(graph.nodes(data=True)):
+    start = time.time()
+    for node, data in list(graph.nodes(data=True)):
         if not node in connected_nodes:
             graph.remove_node(node)
+    print("node clean", time.time() - start)
 
     return graph
