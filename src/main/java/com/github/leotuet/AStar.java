@@ -4,7 +4,6 @@ import java.util.PriorityQueue;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.ArrayList;
-import java.text.DecimalFormat;
 
 import com.github.leotuet.datastructures.Edge;
 import com.github.leotuet.datastructures.Graph;
@@ -35,9 +34,7 @@ public class AStar {
 			Node currentNode = currentPriorityNode.getNode();
 
 			if (currentNode.getKey() == endNodeKey) {
-				String path = constructPath(predecessorNodes, startNodeKey, endNodeKey);
-				String time = new DecimalFormat("#.#").format(currentPriorityNode.getCostToNode() / 60) + "min";
-				return path + " in " + time;
+				return constructPath(predecessorNodes, startNodeKey, endNodeKey);
 			}
 
 			shortestPathDiscovered.add(currentNode.getKey());
@@ -51,16 +48,16 @@ public class AStar {
 					continue;
 				}
 
-				double costToCurrent = currentPriorityNode.getEstimatedCostToEnd() + edge.getCost();
+				double totalCostToTargetNode = currentPriorityNode.getTotalCost() + edge.getCost();
 				PriorityNode discoveredNeighborNode = discoveredNeighborNodes.get(targetNodeKey);
 
-				// Check if Node and more coste efficient way to Node is already discoverd
-				if (discoveredNeighborNode != null && costToCurrent >= discoveredNeighborNode.getCostToNode()) {
+				// Check if Node and a more cost efficient way to the Node was already discoverd
+				if (discoveredNeighborNode != null && totalCostToTargetNode >= discoveredNeighborNode.getTotalCost()) {
 					continue;
 				}
 
-				double estimatedCostToEnd = costToCurrent + calculateHeuristic(targetNode, endNode);
-				PriorityNode priorityNode = new PriorityNode(targetNode, costToCurrent, estimatedCostToEnd);
+				double estimatedTotalCost = totalCostToTargetNode + calculateHeuristic(targetNode, endNode);
+				PriorityNode priorityNode = new PriorityNode(targetNode, totalCostToTargetNode, estimatedTotalCost);
 
 				discoveredNeighborNodes.put(targetNodeKey, priorityNode);
 				predecessorNodes.put(targetNodeKey, currentNode.getKey());
@@ -90,15 +87,12 @@ public class AStar {
 
 	private String constructPath(HashMap<Long, Long> nodeLinks, long startNodeKey, long endNodeKey) {
 		long currentKey = endNodeKey;
-		String path = String.valueOf(endNodeKey);
-		String list = String.valueOf(endNodeKey) + "]";
+		String path = String.valueOf(endNodeKey) + "]";
 		while (currentKey != startNodeKey) {
 			long predecessorNodeKey = nodeLinks.get(currentKey);
-			path = predecessorNodeKey + " -> " + path;
-			list = predecessorNodeKey + "," + list;
+			path = predecessorNodeKey + "," + path;
 			currentKey = predecessorNodeKey;
 		}
-		System.out.println("[" + list);
-		return path;
+		return "[" + path;
 	}
 }

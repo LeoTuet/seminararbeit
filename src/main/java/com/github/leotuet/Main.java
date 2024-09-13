@@ -11,7 +11,7 @@ public class Main {
 
         AStar aStar = new AStar(graph);
         long startTime = System.nanoTime();
-        String result = aStar.run(245477l, 2963494464l);
+        String result = aStar.run(982973953l, 315526436l);
         long stopTime = System.nanoTime();
 
         System.out.println(result);

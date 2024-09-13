@@ -2,22 +2,22 @@ package com.github.leotuet.datastructures;
 
 public class PriorityNode implements Comparable<PriorityNode> {
 	private Node node;
-	private double costToNode;
-	private double estimatedCostToEnd;
+	private double totalCost;
+	private double estimatedTotalCost;
 
 	/**
 	 * Constructor for a PriorityNode which is a wrapper for a Node to save
 	 * information which is used for the A*-ALgorithm
 	 * 
-	 * @param node          for which the data is
-	 * @param costToNode    the total cost to this node from the start
-	 * @param estimatedCost the estimated cost to the end
+	 * @param node               for which the data is
+	 * @param totalCost          the total cost from the start to this node
+	 * @param estimatedTotalCost the estimated cost from the start to the end
 	 */
 
-	public PriorityNode(Node node, double costToNode, double estimatedCost) {
+	public PriorityNode(Node node, double totalCost, double estimatedTotalCost) {
 		this.node = node;
-		this.costToNode = costToNode;
-		this.estimatedCostToEnd = estimatedCost;
+		this.totalCost = totalCost;
+		this.estimatedTotalCost = estimatedTotalCost;
 	}
 
 	/**
@@ -28,21 +28,21 @@ public class PriorityNode implements Comparable<PriorityNode> {
 	}
 
 	/**
-	 * @return the total cost to this node from the start
+	 * @return the total cost from the start to this node
 	 */
-	public double getCostToNode() {
-		return this.costToNode;
+	public double getTotalCost() {
+		return this.totalCost;
 	};
 
 	/**
-	 * @return the estimated cost to the end
+	 * @return the estimated cost from the start to the end
 	 */
-	public double getEstimatedCostToEnd() {
-		return this.estimatedCostToEnd;
+	public double getEstimatedTotalCost() {
+		return this.estimatedTotalCost;
 	}
 
 	@Override
 	public int compareTo(PriorityNode node) {
-		return Double.compare(estimatedCostToEnd, node.estimatedCostToEnd);
+		return Double.compare(estimatedTotalCost, node.estimatedTotalCost);
 	}
 }
