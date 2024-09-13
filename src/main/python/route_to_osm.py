@@ -1,6 +1,6 @@
 import osmnx as ox
-import osm_to_cleaned as otc
-import copy
+import osm_loader
+import sys
 
 route = [
     802816696,
@@ -196,28 +196,15 @@ route = [
     2989380376,
     1419125566,
     26207105,
-    2287766386,
-    2056053157,
-    34030286,
-    2989380362,
-    2989380366,
-    8061603337,
-    4115944275,
-    8061603347,
-    10651361491,
-    8931023147,
-    8931023156,
-    4115944272,
-    8931023170,
-    4115951190,
-    10649508483,
-    8931014960,
-    34030302,
-    2056053158,
-    10694412122,
-    9409530690,
-    9041761866,
-    6839923155,
+    457421780,
+    26207103,
+    457421746,
+    26207084,
+    26207083,
+    457421755,
+    6839923163,
+    26206856,
+    263840881,
     10694397670,
     26206857,
     1423786066,
@@ -261,14 +248,15 @@ route = [
 ]
 
 route_set = set(route)
-graph = otc.osm_to_cleaned()
+graph = osm_loader.load_or_get_osm(sys.argv[1])
+clean_graph = osm_loader.load_or_get_osm(sys.argv[1])
 
-for node, data in list(graph.nodes(data=True)):
+for node, data in list(clean_graph.nodes(data=True)):
     if node not in route_set:
-        graph.remove_node(node)
+        clean_graph.remove_node(node)
 
 map_path = "./src/main/resources/route.html"
-gdf = ox.graph_to_gdfs(graph, nodes=False)
+gdf = ox.graph_to_gdfs(clean_graph, nodes=False)
 gdf.explore().save(map_path)
 
 ox.plot.plot_graph_route(graph, route)

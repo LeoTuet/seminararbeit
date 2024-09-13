@@ -1,0 +1,39 @@
+AStar(graph, startKnoten, zielKnoten)
+	vorrangwarteschlange = [] // leere Warteschlange
+	vorgängeKnoten = {} // leeres Verzeichnis
+	gefundeneNachbarKnoten = {} // leeres Verzeichnis
+	gefundeneKürzestePfadeZuKnoten = [] // leere Menge
+
+
+	startKnoten.gesamtKosten = 0
+	startKnoten.kostenBisZiel = 0
+	vorrangwarteschlange.add(knoten)
+
+	while vorrangwarteschlange is not empty
+		aktuellerKnoten = vorrangwarteschlange.poll()
+		
+		if aktuellerKnoten is entKnoten then
+			return 
+		end
+
+		kanten = aktuellerKnoten.getKanten()
+		gefundeneKürzestePfadeZuKnoten.add(aktuellerKnoten)
+
+		for kante in kanten
+			verbundenerKnoten = kante.getKnoten()
+
+			if verbundenerKnoten in gefundeneKürzestePfadeZuKnoten then
+				continue
+			end
+
+
+		end
+
+
+
+	end 
+
+
+
+
+	
