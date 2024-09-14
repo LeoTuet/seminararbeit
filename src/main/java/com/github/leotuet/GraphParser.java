@@ -26,7 +26,6 @@ public class GraphParser {
 		Graph graph = new Graph();
 
 		InputStream csvStream = this.getClass().getResourceAsStream(path);
-		// CSVFormat csvFormat = CSVFormat.DEFAULT.builder().setDelimiter(";").build();
 		CSVParser csvParser = CSVParser.parse(csvStream, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
 
 		for (CSVRecord record : csvParser) {

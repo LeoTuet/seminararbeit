@@ -4,6 +4,7 @@ public class PriorityNode implements Comparable<PriorityNode> {
 	private Node node;
 	private double totalCost;
 	private double estimatedTotalCost;
+	private long predecessorNodeKey;
 
 	/**
 	 * Constructor for a PriorityNode which is a wrapper for a Node to save
@@ -14,10 +15,11 @@ public class PriorityNode implements Comparable<PriorityNode> {
 	 * @param estimatedTotalCost the estimated cost from the start to the end
 	 */
 
-	public PriorityNode(Node node, double totalCost, double estimatedTotalCost) {
+	public PriorityNode(Node node, double totalCost, double estimatedTotalCost, long predecessorNodeKey) {
 		this.node = node;
 		this.totalCost = totalCost;
 		this.estimatedTotalCost = estimatedTotalCost;
+		this.predecessorNodeKey = predecessorNodeKey;
 	}
 
 	/**
@@ -39,6 +41,13 @@ public class PriorityNode implements Comparable<PriorityNode> {
 	 */
 	public double getEstimatedTotalCost() {
 		return this.estimatedTotalCost;
+	}
+
+	/**
+	 * @return the key of the node which precedes this one on the current discovered shortest path 
+	 */
+	public long getPredecessorNodeKey() {
+		return this.predecessorNodeKey;
 	}
 
 	@Override

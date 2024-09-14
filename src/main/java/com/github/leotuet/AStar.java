@@ -1,16 +1,17 @@
 package com.github.leotuet;
 
-import java.util.PriorityQueue;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.ArrayList;
+import java.util.PriorityQueue;
 
+import com.github.leotuet.Benchmark.Runnable;
 import com.github.leotuet.datastructures.Edge;
 import com.github.leotuet.datastructures.Graph;
 import com.github.leotuet.datastructures.Node;
 import com.github.leotuet.datastructures.PriorityNode;
 
-public class AStar {
+public class AStar implements Runnable<String> {
 	private Graph graph;
 
 	public AStar(Graph graph) {
@@ -19,14 +20,13 @@ public class AStar {
 
 	public String run(long startNodeKey, long endNodeKey) {
 		PriorityQueue<PriorityNode> priorityQueue = new PriorityQueue<>();
-		HashMap<Long, Long> predecessorNodes = new HashMap<Long, Long>();
 		HashMap<Long, PriorityNode> discoveredNeighborNodes = new HashMap<Long, PriorityNode>();
 		HashSet<Long> shortestPathDiscovered = new HashSet<Long>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);
 
-		PriorityNode startPriorityNode = new PriorityNode(startNode, 0.0, 0.0);
+		PriorityNode startPriorityNode = new PriorityNode(startNode, 0.0, 0.0, 0l);
 		priorityQueue.add(startPriorityNode);
 
 		while (!priorityQueue.isEmpty()) {
@@ -34,7 +34,7 @@ public class AStar {
 			Node currentNode = currentPriorityNode.getNode();
 
 			if (currentNode.getKey() == endNodeKey) {
-				return constructPath(predecessorNodes, startNodeKey, endNodeKey);
+				return constructPath(discoveredNeighborNodes, startNodeKey, endNodeKey);
 			}
 
 			shortestPathDiscovered.add(currentNode.getKey());
@@ -48,19 +48,17 @@ public class AStar {
 					continue;
 				}
 
-				double totalCostToTargetNode = currentPriorityNode.getTotalCost() + edge.getCost();
+				double totalCost = currentPriorityNode.getTotalCost() + edge.getCost();
 				PriorityNode discoveredNeighborNode = discoveredNeighborNodes.get(targetNodeKey);
 
 				// Check if Node and a more cost efficient way to the Node was already discoverd
-				if (discoveredNeighborNode != null && totalCostToTargetNode >= discoveredNeighborNode.getTotalCost()) {
+				if (discoveredNeighborNode != null && totalCost >= discoveredNeighborNode.getTotalCost()) {
 					continue;
 				}
 
-				double estimatedTotalCost = totalCostToTargetNode + calculateHeuristic(targetNode, endNode);
-				PriorityNode priorityNode = new PriorityNode(targetNode, totalCostToTargetNode, estimatedTotalCost);
-
+				double estimatedTotalCost = totalCost + calculateHeuristic(targetNode, endNode);
+				PriorityNode priorityNode = new PriorityNode(targetNode, totalCost, estimatedTotalCost, currentNode.getKey());
 				discoveredNeighborNodes.put(targetNodeKey, priorityNode);
-				predecessorNodes.put(targetNodeKey, currentNode.getKey());
 
 				if (discoveredNeighborNode == null) {
 					priorityQueue.add(priorityNode);
@@ -74,8 +72,7 @@ public class AStar {
 
 		}
 
-		return "No Path found";
-
+		return "No route found";
 	}
 
 	private double calculateHeuristic(Node fromNode, Node toNode) {
@@ -85,14 +82,17 @@ public class AStar {
 		return euclideanDistance / graph.getMaxSpeedLimit();
 	}
 
-	private String constructPath(HashMap<Long, Long> nodeLinks, long startNodeKey, long endNodeKey) {
+	private String constructPath(HashMap<Long, PriorityNode> discoveredNeighborNodes, long startNodeKey,
+			long endNodeKey) {
 		long currentKey = endNodeKey;
-		String path = String.valueOf(endNodeKey) + "]";
+		ArrayList<Long> route = new ArrayList<>();
+		route.add(endNodeKey);
 		while (currentKey != startNodeKey) {
-			long predecessorNodeKey = nodeLinks.get(currentKey);
-			path = predecessorNodeKey + "," + path;
+			long predecessorNodeKey = discoveredNeighborNodes.get(currentKey).getPredecessorNodeKey();
+			route.add(0, predecessorNodeKey);
 			currentKey = predecessorNodeKey;
 		}
-		return "[" + path;
+		return route.toString();
 	}
+
 }
