@@ -1,15 +1,15 @@
 package com.github.leotuet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
 import com.github.leotuet.Benchmark.Runnable;
+import com.github.leotuet.datastructures.DiscoveredNodeMap;
 import com.github.leotuet.datastructures.Edge;
 import com.github.leotuet.datastructures.Graph;
 import com.github.leotuet.datastructures.Node;
-import com.github.leotuet.datastructures.PriorityNode;
+import com.github.leotuet.datastructures.DiscoveredNode;
 
 public class AStar implements Runnable<String> {
 	private Graph graph;
@@ -19,25 +19,26 @@ public class AStar implements Runnable<String> {
 	}
 
 	public String run(long startNodeKey, long endNodeKey) {
-		PriorityQueue<PriorityNode> priorityQueue = new PriorityQueue<>();
-		HashMap<Long, PriorityNode> discoveredNeighborNodes = new HashMap<Long, PriorityNode>();
+		PriorityQueue<DiscoveredNode> priorityQueue = new PriorityQueue<>();
+		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
 		HashSet<Long> shortestPathDiscovered = new HashSet<Long>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);
 
-		PriorityNode startPriorityNode = new PriorityNode(startNode, 0.0, 0.0, 0l);
-		priorityQueue.add(startPriorityNode);
+		DiscoveredNode discoveredStartNode = new DiscoveredNode(startNode, 0.0, 0.0, 0l);
+		priorityQueue.add(discoveredStartNode);
 
 		while (!priorityQueue.isEmpty()) {
-			PriorityNode currentPriorityNode = priorityQueue.poll();
-			Node currentNode = currentPriorityNode.getNode();
+			DiscoveredNode currentDiscoveredNode = priorityQueue.poll();
+			Node currentNode = currentDiscoveredNode.getNode();
+			long currentNodeKey = currentNode.getKey();
 
-			if (currentNode.getKey() == endNodeKey) {
-				return constructPath(discoveredNeighborNodes, startNodeKey, endNodeKey);
+			if (currentNodeKey == endNodeKey) {
+				return discoveredNodes.constructPath(startNodeKey, endNodeKey);
 			}
 
-			shortestPathDiscovered.add(currentNode.getKey());
+			shortestPathDiscovered.add(currentNodeKey);
 			ArrayList<Edge> edges = currentNode.getEdges();
 
 			for (Edge edge : edges) {
@@ -48,24 +49,25 @@ public class AStar implements Runnable<String> {
 					continue;
 				}
 
-				double totalCost = currentPriorityNode.getTotalCost() + edge.getCost();
-				PriorityNode discoveredNeighborNode = discoveredNeighborNodes.get(targetNodeKey);
+				double totalCost = currentDiscoveredNode.getTotalCost() + edge.getCost();
+				DiscoveredNode discoveredNode = discoveredNodes.get(targetNodeKey);
 
 				// Check if Node and a more cost efficient way to the Node was already discoverd
-				if (discoveredNeighborNode != null && totalCost >= discoveredNeighborNode.getTotalCost()) {
+				if (discoveredNode != null && totalCost >= discoveredNode.getTotalCost()) {
 					continue;
 				}
 
-				double estimatedTotalCost = totalCost + calculateHeuristic(targetNode, endNode);
-				PriorityNode priorityNode = new PriorityNode(targetNode, totalCost, estimatedTotalCost, currentNode.getKey());
-				discoveredNeighborNodes.put(targetNodeKey, priorityNode);
+				double estimatedTotalCostToEnd = totalCost + calculateHeuristic(targetNode, endNode);
+				DiscoveredNode newDiscoveredNode = new DiscoveredNode(targetNode, totalCost, estimatedTotalCostToEnd,
+						currentNodeKey);
+				discoveredNodes.put(targetNodeKey, newDiscoveredNode);
 
-				if (discoveredNeighborNode == null) {
-					priorityQueue.add(priorityNode);
+				if (discoveredNode == null) {
+					priorityQueue.add(newDiscoveredNode);
 				} else {
 					// The Node was already discovered but this path is more cost efficient
-					priorityQueue.remove(discoveredNeighborNode);
-					priorityQueue.add(priorityNode);
+					priorityQueue.remove(discoveredNode);
+					priorityQueue.add(newDiscoveredNode);
 				}
 
 			}
@@ -80,19 +82,6 @@ public class AStar implements Runnable<String> {
 		double deltaY = fromNode.getY() - toNode.getY();
 		double euclideanDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 		return euclideanDistance / graph.getMaxSpeedLimit();
-	}
-
-	private String constructPath(HashMap<Long, PriorityNode> discoveredNeighborNodes, long startNodeKey,
-			long endNodeKey) {
-		long currentKey = endNodeKey;
-		ArrayList<Long> route = new ArrayList<>();
-		route.add(endNodeKey);
-		while (currentKey != startNodeKey) {
-			long predecessorNodeKey = discoveredNeighborNodes.get(currentKey).getPredecessorNodeKey();
-			route.add(0, predecessorNodeKey);
-			currentKey = predecessorNodeKey;
-		}
-		return route.toString();
 	}
 
 }
