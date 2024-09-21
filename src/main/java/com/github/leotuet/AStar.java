@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-import com.github.leotuet.Benchmark.Runnable;
 import com.github.leotuet.datastructures.DiscoveredNodeMap;
 import com.github.leotuet.datastructures.Edge;
 import com.github.leotuet.datastructures.Graph;
 import com.github.leotuet.datastructures.Node;
 import com.github.leotuet.datastructures.DiscoveredNode;
 
-public class AStar implements Runnable<String> {
+public class AStar {
 	private Graph graph;
 
 	public AStar(Graph graph) {
@@ -21,7 +20,7 @@ public class AStar implements Runnable<String> {
 	public String run(long startNodeKey, long endNodeKey) {
 		PriorityQueue<DiscoveredNode> priorityQueue = new PriorityQueue<>();
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
-		HashSet<Long> shortestPathDiscovered = new HashSet<Long>();
+		HashSet<Long> exploredNodes = new HashSet<Long>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);
@@ -38,14 +37,14 @@ public class AStar implements Runnable<String> {
 				return discoveredNodes.constructPath(startNodeKey, endNodeKey);
 			}
 
-			shortestPathDiscovered.add(currentNodeKey);
+			exploredNodes.add(currentNodeKey);
 			ArrayList<Edge> edges = currentNode.getEdges();
 
 			for (Edge edge : edges) {
 				Node targetNode = edge.getTargetNode();
 				long targetNodeKey = targetNode.getKey();
 
-				if (shortestPathDiscovered.contains(targetNodeKey)) {
+				if (exploredNodes.contains(targetNodeKey)) {
 					continue;
 				}
 

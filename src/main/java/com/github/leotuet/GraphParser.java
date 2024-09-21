@@ -1,7 +1,8 @@
 package com.github.leotuet;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.csv.CSVFormat;
@@ -19,14 +20,11 @@ public class GraphParser {
 	 * @throws IOException when file is not Found at provided path
 	 * @return the parsed Graph
 	 */
-	public Graph csvToGraph(String path) throws IOException {
-		// Method is non static because this.getClass() is not-static and therefore can
-		// also not be called in the main method therefore the param must be a String
-		// path and cannot be the InputStream
+	public static Graph csvToGraph(String path) throws IOException {
 		Graph graph = new Graph();
 
-		InputStream csvStream = this.getClass().getResourceAsStream(path);
-		CSVParser csvParser = CSVParser.parse(csvStream, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+		File csvFile = new File(path);
+		CSVParser csvParser = CSVParser.parse(csvFile, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
 
 		for (CSVRecord record : csvParser) {
 			String[] values = record.values();
@@ -54,6 +52,10 @@ public class GraphParser {
 					graph.setMaxSpeedLimit(speedLimit);
 
 					break;
+				}
+
+				default: {
+					System.out.println("Unexpected record of type: " + type);
 				}
 			}
 
