@@ -1,4 +1,4 @@
-package com.github.leotuet.datastructures;
+package de.leotuet.datastructures;
 
 public class Edge {
 	private double cost;

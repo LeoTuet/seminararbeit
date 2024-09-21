@@ -1,8 +1,8 @@
-package com.github.leotuet;
+package de.leotuet;
 
 import java.io.IOException;
 
-import com.github.leotuet.datastructures.Graph;
+import de.leotuet.datastructures.Graph;
 
 public class Main {
 

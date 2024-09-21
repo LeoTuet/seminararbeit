@@ -1,4 +1,4 @@
-package com.github.leotuet;
+package de.leotuet;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import com.github.leotuet.datastructures.Graph;
+import de.leotuet.datastructures.Graph;
 
 // https://commons.apache.org/proper/commons-csv/apidocs/org/apache/commons/csv/CSVParser.html
 // https://stackoverflow.com/questions/6698354/where-to-get-utf-8-string-literal-in-java

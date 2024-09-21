@@ -1,4 +1,4 @@
-package com.github.leotuet.datastructures;
+package de.leotuet.datastructures;
 
 public class DiscoveredNode implements Comparable<DiscoveredNode> {
 	private Node node;

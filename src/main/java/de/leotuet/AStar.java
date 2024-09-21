@@ -1,14 +1,14 @@
-package com.github.leotuet;
+package de.leotuet;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
-import com.github.leotuet.datastructures.DiscoveredNodeMap;
-import com.github.leotuet.datastructures.Edge;
-import com.github.leotuet.datastructures.Graph;
-import com.github.leotuet.datastructures.Node;
-import com.github.leotuet.datastructures.DiscoveredNode;
+import de.leotuet.datastructures.DiscoveredNodeMap;
+import de.leotuet.datastructures.Edge;
+import de.leotuet.datastructures.Graph;
+import de.leotuet.datastructures.Node;
+import de.leotuet.datastructures.DiscoveredNode;
 
 public class AStar {
 	private Graph graph;
