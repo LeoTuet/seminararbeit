@@ -10,9 +10,9 @@ public class DiscoveredNode implements Comparable<DiscoveredNode> {
 	 * Constructor for a DiscoveredNode which is a wrapper for a Node to save
 	 * information which is used for the A*-ALgorithm
 	 * 
-	 * @param node               for which the data is
-	 * @param totalCost          the total cost from the start to this node
-	 * @param estimatedTotalCostToEnd the estimated cost from the start to the end
+	 * @param node										for which the data is
+	 * @param totalCost								the total cost from the start to this node
+	 * @param estimatedTotalCostToEnd	the estimated cost from the start to the end
 	 */
 
 	public DiscoveredNode(Node node, double totalCost, double estimatedTotalCostToEnd, long predecessorNodeKey) {
@@ -44,7 +44,7 @@ public class DiscoveredNode implements Comparable<DiscoveredNode> {
 	}
 
 	/**
-	 * @return the key of the node which precedes this one on the current discovered shortest path 
+	 * @return the key of the node which precedes this one on the current discovered shortest path
 	 */
 	public long getPredecessorNodeKey() {
 		return this.predecessorNodeKey;

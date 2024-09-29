@@ -215,3 +215,7 @@ cython_debug/
 *.html
 *.pickle
 pickle/
+
+# IDE specific
+.vscode/
+src/main/resources/**/*.png

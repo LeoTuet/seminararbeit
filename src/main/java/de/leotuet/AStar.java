@@ -11,13 +11,8 @@ import de.leotuet.datastructures.Node;
 import de.leotuet.datastructures.DiscoveredNode;
 
 public class AStar {
-	private Graph graph;
 
-	public AStar(Graph graph) {
-		this.graph = graph;
-	}
-
-	public String run(long startNodeKey, long endNodeKey) {
+	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
 		PriorityQueue<DiscoveredNode> priorityQueue = new PriorityQueue<>();
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
 		HashSet<Long> exploredNodes = new HashSet<Long>();
@@ -33,6 +28,7 @@ public class AStar {
 			Node currentNode = currentDiscoveredNode.getNode();
 			long currentNodeKey = currentNode.getKey();
 
+			// when the end node is reached return the constructed path to it
 			if (currentNodeKey == endNodeKey) {
 				return discoveredNodes.constructPath(startNodeKey, endNodeKey);
 			}
@@ -44,6 +40,7 @@ public class AStar {
 				Node targetNode = edge.getTargetNode();
 				long targetNodeKey = targetNode.getKey();
 
+				// Continue to the next edge if the node was already explored which mean that its neighbor where already discovered
 				if (exploredNodes.contains(targetNodeKey)) {
 					continue;
 				}
@@ -56,15 +53,16 @@ public class AStar {
 					continue;
 				}
 
-				double estimatedTotalCostToEnd = totalCost + calculateHeuristic(targetNode, endNode);
-				DiscoveredNode newDiscoveredNode = new DiscoveredNode(targetNode, totalCost, estimatedTotalCostToEnd,
-						currentNodeKey);
+				double estimatedTotalCostToEnd = totalCost + Heuristik.estimateTime(graph, targetNode, endNode);
+				DiscoveredNode newDiscoveredNode = new DiscoveredNode(targetNode, totalCost, estimatedTotalCostToEnd, currentNodeKey);
 				discoveredNodes.put(targetNodeKey, newDiscoveredNode);
 
 				if (discoveredNode == null) {
 					priorityQueue.add(newDiscoveredNode);
 				} else {
 					// The Node was already discovered but this path is more cost efficient
+					// the priorityQueue only executes the compareTo function on insertion which is why the old object is removed and not
+					// updated
 					priorityQueue.remove(discoveredNode);
 					priorityQueue.add(newDiscoveredNode);
 				}
@@ -74,13 +72,6 @@ public class AStar {
 		}
 
 		return "No route found";
-	}
-
-	private double calculateHeuristic(Node fromNode, Node toNode) {
-		double deltaX = fromNode.getX() - toNode.getX();
-		double deltaY = fromNode.getY() - toNode.getY();
-		double euclideanDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-		return euclideanDistance / graph.getMaxSpeedLimit();
 	}
 
 }
