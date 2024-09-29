@@ -1,11 +1,10 @@
-import osmnx as ox
 import pandas as pd
 import networkx as nx
 import osm_loader
 import os
 import sys
 
-graph = osm_loader.load_or_get_osm(sys.argv[1])
+graph = osm_loader.load_or_get_osm(int(sys.argv[1]), str(sys.argv[2]))
 
 unnecessary_columns = [
     "service",
@@ -26,6 +25,7 @@ edges_df = nx.to_pandas_edgelist(graph)
 edges_df = edges_df.drop(columns=unnecessary_columns, errors="ignore")
 edges_df.insert(0, "e", "e")
 edges_df = edges_df[["e", "source", "target", "length", "maxspeed", "osmid"]]
+print("Edge: " + str(len(edges_df.index)))
 
 nodes = []
 for i, (node, data) in enumerate(graph.nodes(data=True)):
@@ -34,6 +34,7 @@ for i, (node, data) in enumerate(graph.nodes(data=True)):
 nodes_df = pd.DataFrame(nodes)
 node_path = "./src/main/resources/nodes.csv"
 nodes_df.to_csv(node_path, header=False, index=False)
+print("Node: " + str(len(nodes_df.index)))
 
 edge_path = "./src/main/resources/edges.csv"
 edges_df.to_csv(edge_path, header=False, index=False)
@@ -50,8 +51,3 @@ if os.path.exists(graph_path):
 f = open(graph_path, "a")
 f.write(node_csv + edge_csv)
 f.close()
-
-
-# map_path = "./src/main/resources/map.html"
-# gdfs = ox.graph_to_gdfs(graph, nodes=False)
-# gdfs.explore().save(map_path)
