@@ -11,11 +11,10 @@ import de.leotuet.datastructures.Node;
 import de.leotuet.datastructures.DiscoveredNode;
 
 public class AStar {
-
 	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
 		PriorityQueue<DiscoveredNode> priorityQueue = new PriorityQueue<>();
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
-		HashSet<Long> exploredNodes = new HashSet<Long>();
+		HashSet<Long> exploredNodeKeys = new HashSet<Long>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);
@@ -30,10 +29,16 @@ public class AStar {
 
 			// when the end node is reached return the constructed path to it
 			if (currentNodeKey == endNodeKey) {
-				return discoveredNodes.constructPath(startNodeKey, endNodeKey);
+				String exploredPaths = discoveredNodes.constructPaths(startNodeKey, exploredNodeKeys);
+				PathExporter.saveToFile(PathExporter.EXPLORED_PATHS_FILE_PATH, exploredPaths);
+
+				String route = discoveredNodes.constructPath(startNodeKey, endNodeKey);
+				PathExporter.saveToFile(PathExporter.ROUTE_FILE_PATH, route);
+
+				return route;
 			}
 
-			exploredNodes.add(currentNodeKey);
+			exploredNodeKeys.add(currentNodeKey);
 			ArrayList<Edge> edges = currentNode.getEdges();
 
 			for (Edge edge : edges) {
@@ -41,7 +46,7 @@ public class AStar {
 				long targetNodeKey = targetNode.getKey();
 
 				// Continue to the next edge if the node was already explored which mean that its neighbor where already discovered
-				if (exploredNodes.contains(targetNodeKey)) {
+				if (exploredNodeKeys.contains(targetNodeKey)) {
 					continue;
 				}
 
