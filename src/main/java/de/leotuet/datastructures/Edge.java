@@ -7,13 +7,12 @@ public class Edge {
 	/**
 	 * Constructor for Edge an wich points to a Node
 	 * 
-	 * @param length			of the Road in meters
-	 * @param speedLimit	on the Road in kilometers per hour (km/h)
-	 * @param targetNode	to which the edge points
+	 * @param length of the Road in meters
+	 * @param speedLimit on the Road in meters per second
+	 * @param targetNode to which the edge points
 	 */
-	public Edge(double length, int speedLimit, Node targetNode) {
-		// converts km/h to m/s before calculating the cost
-		this.cost = length / (speedLimit / 3.6);
+	public Edge(double length, double speedLimit, Node targetNode) {
+		this.cost = length / speedLimit;
 		this.targetNode = targetNode;
 	}
 

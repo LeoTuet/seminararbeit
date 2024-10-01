@@ -31,12 +31,12 @@ file_name = osm_loader.get_file_name(sys.argv[1], sys.argv[2]) + "-route"
 route_path = "./src/main/resources/route.json"
 route = json.load(open(route_path))
 
-plot_explored_paths = sys.argv[3] if 3 < len(sys.argv) else None
+plot_paths = sys.argv[3] if 3 < len(sys.argv) else None
 
-if plot_explored_paths:
-    file_name = file_name + "-and-explored-paths"
-    explored_paths_path = "./src/main/resources/explored-paths.json"
-    explored_paths = json.load(open(explored_paths_path))
+if plot_paths:
+    file_name = file_name + "-and-paths"
+    paths_path = "./src/main/resources/paths.json"
+    paths = json.load(open(paths_path))
 
 
 bgcolor = "white"
@@ -54,8 +54,8 @@ fig, ax = ox.plot_graph(
     close=False,
 )
 
-if plot_explored_paths:
-    for path in explored_paths:
+if plot_paths:
+    for path in paths:
         plot_route(path, "green")
 
 plot_route(route, "red", 0.4)

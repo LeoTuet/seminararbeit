@@ -19,17 +19,20 @@ unnecessary_columns = [
     "bridge",
     "ref",
     "access",
+    "maxspeed",
 ]
 
 edges_df = nx.to_pandas_edgelist(graph)
 edges_df = edges_df.drop(columns=unnecessary_columns, errors="ignore")
 edges_df.insert(0, "e", "e")
-edges_df = edges_df[["e", "source", "target", "length", "maxspeed", "osmid"]]
+edges_df = edges_df[["e", "source", "target", "length", "speed_kph", "osmid"]]
+# there are only integer values for speed limits in Germany
+edges_df["speed_kph"] = edges_df["speed_kph"].astype(int)
 print("Edge: " + str(len(edges_df.index)))
 
 nodes = []
-for i, (node, data) in enumerate(graph.nodes(data=True)):
-    nodes.append(["n", node, data["x"], data["y"]])
+for i, node in enumerate(graph.nodes()):
+    nodes.append(["n", node, graph.nodes[node]["x"], graph.nodes[node]["y"]])
 
 nodes_df = pd.DataFrame(nodes)
 node_path = "./src/main/resources/nodes.csv"

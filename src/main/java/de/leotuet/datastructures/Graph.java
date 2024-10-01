@@ -10,22 +10,22 @@ public class Graph {
 	 * Puts the Node into the Graph Map
 	 * 
 	 * @param key unique identifier for this Node
-	 * @param x   -coordinate where the node is located
-	 * @param y   -coordinate where the node is located
+	 * @param latitude where the node is located
+	 * @param longitude where the node is located
 	 */
-	public void putNode(long key, double x, double y) {
-		nodes.put(key, new Node(key, x, y));
+	public void putNode(long key, double latitude, double longitude) {
+		nodes.put(key, new Node(key, latitude, longitude));
 	}
 
 	/**
 	 * Adds the Edge into the Edge List of the Node
 	 * 
 	 * @param fromNodeKey Node key from which the edges points
-	 * @param toNode      Node to which the edge points
-	 * @param length      of the Road in meters
-	 * @param speedLimit  on the Road in kilometers per hour (km/h)
+	 * @param toNode Node to which the edge points
+	 * @param length of the Road in meters
+	 * @param speedLimit on the Road in meters per second
 	 */
-	public void addEdge(long fromNodeKey, Node toNode, double length, int speedLimit) {
+	public void addEdge(long fromNodeKey, Node toNode, double length, double speedLimit) {
 		Node fromNode = nodes.get(fromNodeKey);
 		fromNode.addEdge(new Edge(length, speedLimit, toNode));
 	}
@@ -33,12 +33,11 @@ public class Graph {
 	/**
 	 * Sets the speed limit if it is the new maximum
 	 * 
-	 * @param speedLimit on the Road in kilometers per hour (km/h)
+	 * @param speedLimit in meters per second
 	 */
-	public void setMaxSpeedLimit(int speedLimit) {
-		double meterPerSecondSpeedLimit = speedLimit / 3.6;
-		if (meterPerSecondSpeedLimit > this.maxSpeedLimit) {
-			this.maxSpeedLimit = meterPerSecondSpeedLimit;
+	public void setMaxSpeedLimit(double speedLimit) {
+		if (speedLimit > this.maxSpeedLimit) {
+			this.maxSpeedLimit = speedLimit;
 		}
 	}
 
@@ -51,7 +50,7 @@ public class Graph {
 	}
 
 	/**
-	 * @return the max speed limit which exists in the graph in m/s
+	 * @return the max speed limit which exists in the graph in meters per second
 	 */
 	public double getMaxSpeedLimit() {
 		return maxSpeedLimit;

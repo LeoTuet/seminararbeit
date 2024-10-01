@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Node {
 	private long key;
-	private double x;
-	private double y;
+	private double longitude;
+	private double latitude;
 	private ArrayList<Edge> edges = new ArrayList<Edge>();
 
 	/**
 	 * Constructor for a Node
 	 * 
 	 * @param key unique identifier for this Node
-	 * @param x   -coordinate where the node is located
-	 * @param y   -coordinate where the node is located
+	 * @param latitude -coordinate where the node is located
+	 * @param longitude -coordinate where the node is located
 	 */
-	public Node(long key, double x, double y) {
+	public Node(long key, double latitude, double longitude) {
 		this.key = key;
-		this.x = x;
-		this.y = y;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	/**
@@ -31,17 +31,17 @@ public class Node {
 	}
 
 	/**
-	 * @return x location of Node
+	 * @return longitude of Node
 	 */
-	public double getX() {
-		return this.x;
+	public double getLongitude() {
+		return this.longitude;
 	}
 
 	/**
-	 * @return y location of Node
+	 * @return latitude of Node
 	 */
-	public double getY() {
-		return this.y;
+	public double getLatitude() {
+		return this.latitude;
 	}
 
 	/**

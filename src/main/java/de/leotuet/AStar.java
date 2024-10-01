@@ -11,7 +11,8 @@ import de.leotuet.datastructures.Node;
 import de.leotuet.datastructures.DiscoveredNode;
 
 public class AStar {
-	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
+
+	public static String run(Graph graph, long startNodeKey, long endNodeKey, boolean export) {
 		PriorityQueue<DiscoveredNode> priorityQueue = new PriorityQueue<>();
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
 		HashSet<Long> exploredNodeKeys = new HashSet<Long>();
@@ -29,11 +30,13 @@ public class AStar {
 
 			// when the end node is reached return the constructed path to it
 			if (currentNodeKey == endNodeKey) {
-				String exploredPaths = discoveredNodes.constructPaths(startNodeKey, exploredNodeKeys);
-				PathExporter.saveToFile(PathExporter.EXPLORED_PATHS_FILE_PATH, exploredPaths);
-
 				String route = discoveredNodes.constructPath(startNodeKey, endNodeKey);
-				PathExporter.saveToFile(PathExporter.ROUTE_FILE_PATH, route);
+
+				if (export) {
+					String exploredPaths = discoveredNodes.constructPaths(startNodeKey, exploredNodeKeys);
+					PathExporter.saveToFile(PathExporter.PATHS_FILE_PATH, exploredPaths);
+					PathExporter.saveToFile(PathExporter.ROUTE_FILE_PATH, route);
+				}
 
 				return route;
 			}
