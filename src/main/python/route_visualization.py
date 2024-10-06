@@ -5,7 +5,7 @@ import sys
 
 
 # copies from osmnx plot.py
-def plot_route(route: list[int], route_color: str, line_width=0.2):
+def plot_route(route: list[int], route_color: str, line_width: int):
 
     # assemble the route edge geometries' x and y coords then plot the line
     x = []
@@ -28,6 +28,14 @@ def plot_route(route: list[int], route_color: str, line_width=0.2):
 graph = osm_loader.load_or_get_osm(sys.argv[1], sys.argv[2])
 file_name = osm_loader.get_file_name(sys.argv[1], sys.argv[2]) + "-route"
 
+line_width = 0.1
+path_line_width = 0.2
+route_line_width = 0.4
+if int(sys.argv[1]) <= 10000:
+    line_width = 1
+    path_line_width = 1.2
+    route_line_width = 1.4
+
 route_path = "./src/main/resources/route.json"
 route = json.load(open(route_path))
 
@@ -42,7 +50,7 @@ if plot_paths:
 bgcolor = "white"
 edge_color = "black"
 
-line_width = 0.1
+
 fig, ax = ox.plot_graph(
     graph,
     bgcolor=bgcolor,
@@ -56,9 +64,9 @@ fig, ax = ox.plot_graph(
 
 if plot_paths:
     for path in paths:
-        plot_route(path, "green")
+        plot_route(path, "#2f9e44", path_line_width)
 
-plot_route(route, "red", 0.4)
+plot_route(route, "#e03131", route_line_width)
 
 
 # save and show the figure as specified, passing relevant kwargs
