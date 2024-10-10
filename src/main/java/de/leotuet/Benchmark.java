@@ -26,7 +26,6 @@ public class Benchmark {
 			AStar.run(graph, startNodeKey, endNodeKey, false);
 			long runtime = System.nanoTime() - time;
 			times.add(runtime);
-
 		}
 
 		printSingleRunResults(times);

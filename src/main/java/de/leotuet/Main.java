@@ -11,12 +11,12 @@ public class Main {
 
         // kleine
         String result = AStar.run(graph, 2090684017l, 60127233l, true);
-        // Benchmark.runAStar(graph, 2090684017l, 60127233l);
+        // Benchmark.singleAStarRun(graph, 2090684017l, 60127233l);
 
         // große
         // 21005407 -> München Stachus, 271985638 -> Rothenburg ob der Tauber Kirchenplatz
         // String result = AStar.run(graph, 21005407l, 271985638l, true);
-        // Benchmark.runAStar(graph, 21005407l, 271985638l);
+        // Benchmark.singleAStarRun(graph, 21005407l, 271985638l);
 
         System.out.println(result);
 

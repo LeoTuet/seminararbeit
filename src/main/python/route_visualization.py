@@ -30,7 +30,7 @@ file_name = osm_loader.get_file_name(sys.argv[1], sys.argv[2]) + "-route"
 
 line_width = 0.1
 path_line_width = 0.2
-route_line_width = 0.4
+route_line_width = 1
 if int(sys.argv[1]) <= 10000:
     line_width = 1
     path_line_width = 1.2
