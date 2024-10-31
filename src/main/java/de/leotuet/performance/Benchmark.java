@@ -1,7 +1,9 @@
-package de.leotuet;
+package de.leotuet.performance;
 
 import java.util.ArrayList;
 
+import de.leotuet.AStar;
+import de.leotuet.UnitCalculator;
 import de.leotuet.datastructures.Graph;
 
 public class Benchmark {
@@ -18,12 +20,42 @@ public class Benchmark {
 	}
 
 	public static void singleAStarRun(Graph graph, long startNodeKey, long endNodeKey) {
-		double runs = 10000;
+		double runs = 1000000;
 
 		ArrayList<Long> times = new ArrayList<>();
 		for (int i = 0; i < runs; i++) {
 			long time = System.nanoTime();
 			AStar.run(graph, startNodeKey, endNodeKey, false);
+			long runtime = System.nanoTime() - time;
+			times.add(runtime);
+		}
+
+		printSingleRunResults(times);
+
+	}
+
+	public static void singleAStarTreeSetRun(Graph graph, long startNodeKey, long endNodeKey) {
+		double runs = 1000000;
+
+		ArrayList<Long> times = new ArrayList<>();
+		for (int i = 0; i < runs; i++) {
+			long time = System.nanoTime();
+			AStarTreeSet.run(graph, startNodeKey, endNodeKey);
+			long runtime = System.nanoTime() - time;
+			times.add(runtime);
+		}
+
+		printSingleRunResults(times);
+
+	}
+
+	public static void singleAStarFibonacciHeapRun(Graph graph, long startNodeKey, long endNodeKey) {
+		double runs = 1000000;
+
+		ArrayList<Long> times = new ArrayList<>();
+		for (int i = 0; i < runs; i++) {
+			long time = System.nanoTime();
+			AStarFibonacciHeap.run(graph, startNodeKey, endNodeKey);
 			long runtime = System.nanoTime() - time;
 			times.add(runtime);
 		}
