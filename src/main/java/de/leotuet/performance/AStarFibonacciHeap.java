@@ -1,21 +1,21 @@
 package de.leotuet.performance;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 
+import de.leotuet.Heuristik;
+import de.leotuet.datastructures.DiscoveredNode;
 import de.leotuet.datastructures.Edge;
 import de.leotuet.datastructures.Graph;
 import de.leotuet.datastructures.Node;
-import de.leotuet.Heuristik;
-import de.leotuet.datastructures.DiscoveredNode;
 
 public class AStarFibonacciHeap {
 
 	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
 		FibonacciHeap<DiscoveredNode> fibonacciHeap = new FibonacciHeap<>();
 		HashMap<Long, FibonacciHeap.Entry<DiscoveredNode>> discoveredNodes = new HashMap<>();
-		HashSet<Long> exploredNodeKeys = new HashSet<Long>();
+		HashSet<Long> exploredNodeKeys = new HashSet<>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);

@@ -1,22 +1,22 @@
 package de.leotuet.performance;
 
 import java.util.ArrayList;
-import java.util.TreeSet;
 import java.util.HashSet;
+import java.util.TreeSet;
 
+import de.leotuet.Heuristik;
+import de.leotuet.datastructures.DiscoveredNode;
 import de.leotuet.datastructures.DiscoveredNodeMap;
 import de.leotuet.datastructures.Edge;
 import de.leotuet.datastructures.Graph;
 import de.leotuet.datastructures.Node;
-import de.leotuet.Heuristik;
-import de.leotuet.datastructures.DiscoveredNode;
 
 public class AStarTreeSet {
 
 	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
 		TreeSet<DiscoveredNode> treeSet = new TreeSet<>();
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
-		HashSet<Long> exploredNodeKeys = new HashSet<Long>();
+		HashSet<Long> exploredNodeKeys = new HashSet<>();
 
 		Node startNode = graph.getNode(startNodeKey);
 		Node endNode = graph.getNode(endNodeKey);
@@ -31,8 +31,7 @@ public class AStarTreeSet {
 
 			// when the end node is reached return the constructed path to it
 			if (currentNodeKey == endNodeKey) {
-				String route = discoveredNodes.constructPath(startNodeKey, endNodeKey);
-
+				String route = discoveredNodes.constructPath(startNodeKey, endNodeKey).toString();
 				return route;
 			}
 

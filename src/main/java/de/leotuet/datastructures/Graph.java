@@ -1,29 +1,30 @@
 package de.leotuet.datastructures;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
-public class Graph {
-	private HashMap<Long, Node> nodes = new HashMap<Long, Node>();
+public class Graph implements Iterable<Node> {
+	private final HashMap<Long, Node> nodes = new HashMap<>();
 	private double maxSpeedLimit = 0;
 
 	/**
-	 * Puts the Node into the Graph Map
+	 * Puts information about a node into the graph map as an node object.
 	 * 
 	 * @param key unique identifier for this Node
-	 * @param latitude where the node is located
-	 * @param longitude where the node is located
+	 * @param latitude coordinate where the node is located
+	 * @param longitude coordinate where the node is located
 	 */
 	public void putNode(long key, double latitude, double longitude) {
 		nodes.put(key, new Node(key, latitude, longitude));
 	}
 
 	/**
-	 * Adds the Edge into the Edge List of the Node
+	 * Adds information about an edge into the edge List of the given node as an edge object.
 	 * 
-	 * @param fromNodeKey Node key from which the edges points
-	 * @param toNode Node to which the edge points
-	 * @param length of the Road in meters
-	 * @param speedLimit on the Road in meters per second
+	 * @param fromNodeKey from which the edges points
+	 * @param toNode to which the edge points
+	 * @param length of the road in meters
+	 * @param speedLimit on the road in meters per second
 	 */
 	public void addEdge(long fromNodeKey, Node toNode, double length, double speedLimit) {
 		Node fromNode = nodes.get(fromNodeKey);
@@ -31,7 +32,7 @@ public class Graph {
 	}
 
 	/**
-	 * Sets the speed limit if it is the new maximum
+	 * Sets the speed limit if it is the new maximum.
 	 * 
 	 * @param speedLimit in meters per second
 	 */
@@ -42,8 +43,8 @@ public class Graph {
 	}
 
 	/**
-	 * @param key of the Node in Graph
-	 * @return the specified Node
+	 * @param key of the node in the graph
+	 * @return the specified node
 	 */
 	public Node getNode(long key) {
 		return nodes.get(key);
@@ -54,6 +55,16 @@ public class Graph {
 	 */
 	public double getMaxSpeedLimit() {
 		return maxSpeedLimit;
+	}
+
+	/**
+	 * Provides an iterator for iterating over nodes in the graph.
+	 * 
+	 * @return the iterator of the graph map
+	 */
+	@Override
+	public Iterator<Node> iterator() {
+		return this.nodes.values().iterator();
 	}
 
 }

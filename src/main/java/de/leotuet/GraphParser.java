@@ -2,7 +2,6 @@ package de.leotuet;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.csv.CSVFormat;

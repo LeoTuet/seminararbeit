@@ -1,15 +1,15 @@
 package de.leotuet.datastructures;
 
 public class Edge {
-	private double cost;
-	private Node targetNode;
+	private final double cost;
+	private final Node targetNode;
 
 	/**
-	 * Constructor for Edge an wich points to a Node
+	 * Constructs an Edge that points to a given target Node.
 	 * 
-	 * @param length of the Road in meters
-	 * @param speedLimit on the Road in meters per second
-	 * @param targetNode to which the edge points
+	 * @param length of the road in meters
+	 * @param speedLimit on the road in meters per second
+	 * @param targetNode to which this edge points
 	 */
 	public Edge(double length, double speedLimit, Node targetNode) {
 		this.cost = length / speedLimit;
@@ -17,14 +17,14 @@ public class Edge {
 	}
 
 	/**
-	 * @return the node to which the edge points to
+	 * @return the node to which this edge points
 	 */
 	public Node getTargetNode() {
 		return this.targetNode;
 	}
 
 	/**
-	 * @return the cost which it takes to traverse over edge to the node
+	 * @return the cost which it takes to traverse over edge to the {@code targetNode}
 	 */
 	public double getCost() {
 		return this.cost;
