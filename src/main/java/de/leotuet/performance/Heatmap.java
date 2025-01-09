@@ -3,7 +3,6 @@ package de.leotuet.performance;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,13 +63,11 @@ public class Heatmap {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		Graph graph = GraphParser.csvToGraph("src/main/resources/graph.csv");
+
 		long centerNodeKey = 281230953l;
 		List<Long> nodes = getHeatmapNodes(graph, 10, 5, centerNodeKey);
-		Collections.shuffle(nodes);
-		System.out.println(nodes.size());
 
 		ArrayList<String> results = new ArrayList<>();
-
 		for (Long node : nodes) {
 			var times = Benchmark.singleAStarRun(graph, centerNodeKey, node, 10);
 			double averageTime = UnitCalculator.nanoToStandard(Benchmark.getTotalTime(times) / times.size());

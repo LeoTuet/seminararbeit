@@ -15,7 +15,9 @@ public class AStar {
 
 	public static ArrayList<Long> run(Graph graph, long startNodeKey, long endNodeKey, boolean export) {
 		PriorityQueue<DiscoveredNode> priorityQueue = new PriorityQueue<>();
+		// 'open list' nodes to explore
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
+		// 'closed list' nodes which where explored
 		HashSet<Long> exploredNodeKeys = new HashSet<>();
 
 		Node startNode = graph.getNode(startNodeKey);

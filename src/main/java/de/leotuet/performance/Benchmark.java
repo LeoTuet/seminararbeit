@@ -32,9 +32,14 @@ public class Benchmark {
 		ArrayList<Long> times = new ArrayList<>();
 		for (int i = 0; i < runs; i++) {
 			long time = System.nanoTime();
-			AStar.run(graph, startNodeKey, endNodeKey, false);
+			ArrayList<Long> result = AStar.run(graph, startNodeKey, endNodeKey, false);
 			long runtime = System.nanoTime() - time;
 			times.add(runtime);
+			if (result == null) {
+				times.clear();
+				times.add(-1l);
+				return times;
+			}
 		}
 
 		return times;
