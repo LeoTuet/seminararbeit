@@ -4,7 +4,7 @@ import de.leotuet.datastructures.Graph;
 import de.leotuet.datastructures.Node;
 
 public class Heuristik {
-	// https://www.mathsjournal.com/pdf/2021/vol6issue5/PartA/6-4-19-973.pdf
+
 	public static double estimateGreatCircleDistance(Node fromNode, Node toNode) {
 		double halfDeltaLatitude = Math.toRadians(toNode.getLatitude() - fromNode.getLatitude()) / 2;
 		double halfDeltaLongitude = Math.toRadians(toNode.getLongitude() - fromNode.getLongitude()) / 2;
@@ -23,4 +23,5 @@ public class Heuristik {
 		double greatCircleDistance = estimateGreatCircleDistance(fromNode, toNode);
 		return UnitCalculator.kilometersToMeters(greatCircleDistance) / graph.getMaxSpeedLimit();
 	}
+
 }

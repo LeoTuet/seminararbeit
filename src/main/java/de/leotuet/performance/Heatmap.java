@@ -6,9 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import de.leotuet.AStar;
 import de.leotuet.GraphParser;
 import de.leotuet.Heuristik;
-import de.leotuet.PathExporter;
+import de.leotuet.StringExporter;
 import de.leotuet.UnitCalculator;
 import de.leotuet.datastructures.Graph;
 import de.leotuet.datastructures.Node;
@@ -69,11 +70,12 @@ public class Heatmap {
 
 		ArrayList<String> results = new ArrayList<>();
 		for (Long node : nodes) {
-			var times = Benchmark.singleAStarRun(graph, centerNodeKey, node, 10);
+			var times = Benchmark.run(1, () -> AStar.run(graph, centerNodeKey, node, false));
 			double averageTime = UnitCalculator.nanoToStandard(Benchmark.getTotalTime(times) / times.size());
 			results.add("[" + node + "," + averageTime + "]");
 		}
 
-		PathExporter.saveToFile(PathExporter.HEATMAP_FILE_PATH, results.toString());
+		StringExporter.saveToFile(StringExporter.HEATMAP_FILE_PATH, results.toString());
 	}
+
 }

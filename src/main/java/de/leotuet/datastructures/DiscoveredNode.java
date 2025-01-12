@@ -58,4 +58,5 @@ public class DiscoveredNode implements Comparable<DiscoveredNode> {
 	public int compareTo(DiscoveredNode node) {
 		return Double.compare(this.estimatedTotalCost, node.estimatedTotalCost);
 	}
+
 }

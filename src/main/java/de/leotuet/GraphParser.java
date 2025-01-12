@@ -29,36 +29,35 @@ public class GraphParser {
 			String[] values = record.values();
 			String type = values[0];
 			switch (type) {
-			// Node Record
-			case "n": {
-				long key = Long.parseLong(values[1]);
-				double x = Double.parseDouble(values[2]);
-				double y = Double.parseDouble(values[3]);
+				// Node Record
+				case "n": {
+					long key = Long.parseLong(values[1]);
+					double x = Double.parseDouble(values[2]);
+					double y = Double.parseDouble(values[3]);
 
-				graph.putNode(key, x, y);
+					graph.putNode(key, x, y);
 
-				break;
+					break;
+				}
+
+				// Edge Record
+				case "e": {
+					long fromKey = Long.parseLong(values[1]);
+					long toKey = Long.parseLong(values[2]);
+					double length = Double.parseDouble(values[3]);
+					int speedLimit = Integer.parseInt(values[4]);
+
+					double speedLimitInMetersPerSecond = UnitCalculator.kilometersPerHourToMetersPerSecond(speedLimit);
+					graph.addEdge(fromKey, graph.getNode(toKey), length, speedLimitInMetersPerSecond);
+					graph.setMaxSpeedLimit(speedLimitInMetersPerSecond);
+
+					break;
+				}
+
+				default: {
+					System.out.println("Unexpected record of type: " + type);
+				}
 			}
-
-			// Edge Record
-			case "e": {
-				long fromKey = Long.parseLong(values[1]);
-				long toKey = Long.parseLong(values[2]);
-				double length = Double.parseDouble(values[3]);
-				int speedLimit = Integer.parseInt(values[4]);
-
-				double speedLimitInMetersPerSecond = UnitCalculator.kilometersPerHourToMetersPerSecond(speedLimit);
-				graph.addEdge(fromKey, graph.getNode(toKey), length, speedLimitInMetersPerSecond);
-				graph.setMaxSpeedLimit(speedLimitInMetersPerSecond);
-
-				break;
-			}
-
-			default: {
-				System.out.println("Unexpected record of type: " + type);
-			}
-			}
-
 		}
 
 		return graph;

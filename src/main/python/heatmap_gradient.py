@@ -203,8 +203,8 @@ colors = [
 
 
 def get_color_from_time(time: float):
-    if (time < 0):
-        return '#000' 
+    if time < 0:
+        return "#000"
     calculated_index = round(time * 2000)
     safe_index = max(min(calculated_index, 200), 1)
     return colors[safe_index - 1]

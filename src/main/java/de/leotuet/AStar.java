@@ -38,8 +38,8 @@ public class AStar {
 
 				if (export) {
 					HashMap<Long, String> exploredPaths = discoveredNodes.constructPaths(startNodeKey, exploredNodeKeys);
-					PathExporter.saveToFile(PathExporter.PATHS_FILE_PATH, exploredPaths.values().toString());
-					PathExporter.saveToFile(PathExporter.ROUTE_FILE_PATH, route.toString());
+					StringExporter.saveToFile(StringExporter.PATHS_FILE_PATH, exploredPaths.values().toString());
+					StringExporter.saveToFile(StringExporter.ROUTE_FILE_PATH, route.toString());
 				}
 
 				return route;

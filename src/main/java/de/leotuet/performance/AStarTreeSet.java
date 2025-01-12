@@ -13,7 +13,7 @@ import de.leotuet.datastructures.Node;
 
 public class AStarTreeSet {
 
-	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
+	public static ArrayList<Long> run(Graph graph, long startNodeKey, long endNodeKey) {
 		TreeSet<DiscoveredNode> treeSet = new TreeSet<>();
 		DiscoveredNodeMap discoveredNodes = new DiscoveredNodeMap();
 		HashSet<Long> exploredNodeKeys = new HashSet<>();
@@ -31,8 +31,7 @@ public class AStarTreeSet {
 
 			// when the end node is reached return the constructed path to it
 			if (currentNodeKey == endNodeKey) {
-				String route = discoveredNodes.constructPath(startNodeKey, endNodeKey).toString();
-				return route;
+				return discoveredNodes.constructPath(startNodeKey, endNodeKey);
 			}
 
 			exploredNodeKeys.add(currentNodeKey);
@@ -73,7 +72,7 @@ public class AStarTreeSet {
 
 		}
 
-		return "No route found";
+		return null;
 	}
 
 }

@@ -12,7 +12,7 @@ import de.leotuet.datastructures.Node;
 
 public class AStarFibonacciHeap {
 
-	public static String run(Graph graph, long startNodeKey, long endNodeKey) {
+	public static ArrayList<Long> run(Graph graph, long startNodeKey, long endNodeKey) {
 		FibonacciHeap<DiscoveredNode> fibonacciHeap = new FibonacciHeap<>();
 		HashMap<Long, FibonacciHeap.Entry<DiscoveredNode>> discoveredNodes = new HashMap<>();
 		HashSet<Long> exploredNodeKeys = new HashSet<>();
@@ -70,11 +70,11 @@ public class AStarFibonacciHeap {
 
 		}
 
-		return "No route found";
+		return null;
 	}
 
-	public static String constructPath(HashMap<Long, FibonacciHeap.Entry<DiscoveredNode>> discoveredNodes, long startNodeKey,
-			long endNodeKey) {
+	public static ArrayList<Long> constructPath(HashMap<Long, FibonacciHeap.Entry<DiscoveredNode>> discoveredNodes,
+			long startNodeKey, long endNodeKey) {
 		ArrayList<Long> route = new ArrayList<>();
 		long currentKey = endNodeKey;
 		route.add(endNodeKey);
@@ -83,7 +83,7 @@ public class AStarFibonacciHeap {
 			route.add(0, predecessorNodeKey);
 			currentKey = predecessorNodeKey;
 		}
-		return route.toString();
+		return route;
 	}
 
 }
