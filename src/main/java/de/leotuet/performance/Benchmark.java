@@ -23,9 +23,9 @@ public class Benchmark {
 	public static void printSingleRunResults(ArrayList<Long> times) {
 		long totalNanoTime = getTotalTime(times);
 
-		double totalSeconds = UnitCalculator.nanoToStandard(totalNanoTime);
-		System.out.println("First Runtime: " + UnitCalculator.nanoToStandard((times.get(0))));
-		System.out.println("Last Runtime: " + UnitCalculator.nanoToStandard((times.get(times.size() - 1))));
+		double totalSeconds = UnitCalculator.nanosecondsToSeconds(totalNanoTime);
+		System.out.println("First Runtime: " + UnitCalculator.nanosecondsToSeconds((times.get(0))));
+		System.out.println("Last Runtime: " + UnitCalculator.nanosecondsToSeconds((times.get(times.size() - 1))));
 		System.out.println("Total Runtime: " + totalSeconds);
 		System.out.println("Average Runtime: " + totalSeconds / times.size());
 	}

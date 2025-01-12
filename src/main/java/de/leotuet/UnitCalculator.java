@@ -10,7 +10,7 @@ public class UnitCalculator {
 		return kilometersPerHour / 3.6;
 	}
 
-	public static double nanoToStandard(long nano) {
+	public static double nanosecondsToSeconds(long nano) {
 		return nano / Math.pow(10, 9);
 	}
 

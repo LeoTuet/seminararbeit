@@ -58,7 +58,7 @@ public class Graph implements Iterable<Node> {
 	}
 
 	/**
-	 * Provides an iterator for iterating over nodes in the graph.
+	 * Provides an iterator for iterating over nodes in the graph (only needed in benchmarks).
 	 * 
 	 * @return the iterator of the graph map
 	 */

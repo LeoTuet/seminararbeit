@@ -54,7 +54,7 @@ public class AStarTreeSet {
 					continue;
 				}
 
-				double estimatedTotalCostToEnd = totalCost + Heuristik.estimateTime(graph, targetNode, endNode);
+				double estimatedTotalCostToEnd = totalCost + Heuristik.estimateTime(graph.getMaxSpeedLimit(), targetNode, endNode);
 				DiscoveredNode newDiscoveredNode = new DiscoveredNode(targetNode, totalCost, estimatedTotalCostToEnd, currentNodeKey);
 				discoveredNodes.put(targetNodeKey, newDiscoveredNode);
 

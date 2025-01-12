@@ -53,7 +53,7 @@ public class AStarFibonacciHeap {
 					continue;
 				}
 
-				double estimatedTotalCostToEnd = totalCost + Heuristik.estimateTime(graph, targetNode, endNode);
+				double estimatedTotalCostToEnd = totalCost + Heuristik.estimateTime(graph.getMaxSpeedLimit(), targetNode, endNode);
 
 				if (discoveredNode == null) {
 					DiscoveredNode newDiscoveredNode = new DiscoveredNode(targetNode, totalCost, estimatedTotalCostToEnd, currentNodeKey);

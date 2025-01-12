@@ -15,9 +15,9 @@ import de.leotuet.datastructures.Graph;
 public class GraphParser {
 
 	/**
-	 * @param path String path to file location in resources folder
-	 * @throws IOException when file is not Found at provided path
+	 * @param path to the graph CSV file
 	 * @return the parsed Graph
+	 * @throws IOException if the file is not found at provided path or cannot be read
 	 */
 	public static Graph csvToGraph(String path) throws IOException {
 		Graph graph = new Graph();

@@ -71,7 +71,7 @@ public class Heatmap {
 		ArrayList<String> results = new ArrayList<>();
 		for (Long node : nodes) {
 			var times = Benchmark.run(1, () -> AStar.run(graph, centerNodeKey, node, false));
-			double averageTime = UnitCalculator.nanoToStandard(Benchmark.getTotalTime(times) / times.size());
+			double averageTime = UnitCalculator.nanosecondsToSeconds(Benchmark.getTotalTime(times) / times.size());
 			results.add("[" + node + "," + averageTime + "]");
 		}
 
