@@ -63,8 +63,8 @@ public class Benchmark {
 		// var runs = 10000;
 
 		var times = Benchmark.run(runs, () -> AStar.run(graph, startNodeKey, endNodeKey, false));
-		// var times = Benchmark.run(1000000, () -> AStarTreeSet.run(graph, startNodeKey, endNodeKey));
-		// var times = Benchmark.run(1000000, () -> AStarFibonacciHeap.run(graph, startNodeKey, endNodeKey));
+		// var times = Benchmark.run(runs, () -> AStarTreeSet.run(graph, startNodeKey, endNodeKey));
+		// var times = Benchmark.run(runs, () -> AStarFibonacciHeap.run(graph, startNodeKey, endNodeKey));
 
 		Benchmark.printSingleRunResults(times);
 	}
